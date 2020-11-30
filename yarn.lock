@@ -11231,7 +11231,7 @@
   "resolved" "https://registry.npmjs.org/uuid/-/uuid-3.4.0.tgz"
   "version" "3.4.0"
 
-"uuid@^8.3.0":
+"uuid@^8.3.0", "uuid@^8.3.1":
   "integrity" "sha512-FOmRr+FmWEIG8uhZv6C2bTgEVXsHk08kE7mPlrBbEe+c3r9pjceVPgupIfNIhc4yx55H69OXANrUaSuu9eInKg=="
   "resolved" "https://registry.npmjs.org/uuid/-/uuid-8.3.1.tgz"
   "version" "8.3.1"

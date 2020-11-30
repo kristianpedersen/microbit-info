@@ -1,19 +1,20 @@
+import "./App.css"
+import { useRef, useState } from "react"
 import Connection from "./Connection"
-import { Context, ContextProvider } from "./Context"
 import SimpleLogWindow from "./SimpleLogWindow"
 import styled from "styled-components"
-import { useContext, useRef, useState } from "react"
-import "./App.css"
 
 export default function App() {
   const logWindow = useRef()
-  const [device, setDevice] = useState()
+  const [microbit, setMicrobit] = useState()
   const [messages, setMessages] = useState([])
+  const [keys, setKeys] = useState([])
 
   const allProps = {
     logWindow,
-    device, setDevice,
-    messages, setMessages
+    keys, setKeys,
+    messages, setMessages,
+    microbit, setMicrobit,
   }
 
   return (

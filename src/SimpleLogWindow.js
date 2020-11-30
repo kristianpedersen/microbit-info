@@ -1,12 +1,21 @@
-import { useContext, useEffect } from "react"
-import { Context } from "./Context"
+import { useEffect, useRef } from "react"
+import { v4 as uuidv4 } from 'uuid';
 import styled from "styled-components"
 
 export default function SimpleLogWindow(props) {
-	const { logWindow, messages, setMessages } = props
+	const { microbit, messages } = props
+	const microbitTitle = useRef(null)
+	useEffect(function instructUserToConnect() {
+		if (microbit === undefined) {
+			microbitTitle.current.innerText = "Trykk connect for å sette i gang"
+		} else {
+			microbitTitle.current.innerText = `${microbit.productName} er koblet til`
+		}
+	}, [microbit])
 	return (
 		<div>
-			{messages.map(m => <p>{`${m.time} / ${m.msg}`}</p>)}
+			<h1 ref={microbitTitle}></h1>
+			{messages.map(m => <p key={uuidv4()}>{`${m.time} / ${m.msg}`}</p>)}
 		</div>
 	)
 
