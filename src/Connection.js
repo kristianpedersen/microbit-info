@@ -89,7 +89,7 @@ export default function Connection(props) {
 
 	function clear() {
 		setMessages([])
-		setKeys([])
+		setKeys(prev => new Set())
 	}
 
 	return (
