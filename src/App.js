@@ -1,17 +1,18 @@
 import "./App.css"
 import { useRef, useState } from "react"
-import Connection from "./Connection"
+import Canvas from "./Canvas"
 import MessageHandler from "./MessageHandler"
 import Options from "./Options"
-import styled from "styled-components"
 
 export default function App() {
-  const [keys, setKeys] = useState(new Set())
+  const [keys, setKeys] = useState([])
+  const numberOfReceivedMessages = useRef(0)
 
   return (
     <>
-      <MessageHandler {...{ keys, setKeys }} />
+      <MessageHandler {...{ keys, setKeys, numberOfReceivedMessages }} />
       <Options {...{ keys }} />
+      <Canvas />
     </>
   )
 }

@@ -3,7 +3,8 @@ let msg = ""
 
 export default function Connection(props) {
 	const {
-		keys, setKeys,
+		numberOfReceivedMessages,
+		setKeys,
 		setMessages,
 		setMicrobit
 	} = props
@@ -16,7 +17,7 @@ export default function Connection(props) {
 		await device.selectConfiguration(1)
 		await device.claimInterface(2)
 		setMicrobit(device)
-		handleReceivedMessage()
+		handleReceivedMessages()
 	}
 
 	async function disconnect() {
@@ -51,8 +52,9 @@ export default function Connection(props) {
 		}, [])
 	}
 
-	async function handleReceivedMessage() {
-		const results = await device.transferIn(4, 2048)
+	async function handleReceivedMessages() {
+		numberOfReceivedMessages.current++
+		const results = await device.transferIn(4, 64)
 		const decoder = new TextDecoder()
 		const receivedData = decoder.decode(results.data).trim()
 
@@ -79,17 +81,19 @@ export default function Connection(props) {
 						return prev
 					})
 
-					keys.add(key)
+					if (numberOfReceivedMessages.current > 100) {
+						setKeys(prev => [...new Set([...prev, key])])
+					}
 				}
 			}
 			msg = ""
 		}
-		handleReceivedMessage()
+		handleReceivedMessages()
 	}
 
 	function clear() {
-		setMessages([])
-		setKeys(prev => new Set())
+		setMessages(prev => [])
+		setKeys(prev => [])
 	}
 
 	return (

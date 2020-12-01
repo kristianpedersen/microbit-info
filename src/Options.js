@@ -1,22 +1,51 @@
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { v4 as uuidv4 } from 'uuid'
 
 export default function Options({ keys }) {
-	const [clicked, setClicked] = useState(false)
+	const [clicked, setClicked] = useState(true)
+	const formRef = useRef()
+
 	function handleChange(event) {
-		console.log(event.target.checked)
+		const tagName = event.target.tagName
+		const checkbox = event.target.querySelector("input")
+		switch (tagName) {
+			case "INPUT":
+				// const cb = event.target.parentNode.querySelector("input")
+				break
+			case "LABEL":
+				checkbox.checked = !checkbox.checked
+		}
 	}
 
 	return (
-		<form onClick={() => setClicked(true)} style={{ padding: "1rem", background: "pink" }}>
+		<form
+			onClick={() => setClicked(true)}
+			ref={formRef}
+			style={{
+				padding: "1rem", background: "pink"
+			}}>
 			{clicked && (
-				[...keys].map(k => {
+				[...keys].map((k, i) => {
 					const id = uuidv4()
 					return (
-						<label htmlFor={id} name={id} id={id}>
-							<input type="checkbox" name={id} id={id} />
-							{k}
-						</label>
+						<>
+							<label
+								htmlFor={id}
+								id={id}
+								name={id}
+								onClick={handleChange}
+								style={{ padding: "1rem", border: "1px solid", display: "inline-block" }}
+							>
+								<input type="checkbox" name={id} id={id} defaultChecked />
+								{k}
+								<span>
+									<input type="number" name="min-from" id="min-from" />
+									<input type="number" name="max-from" id="max-from" />
+									<input type="number" name="min-to" id="min-to" />
+									<input type="number" name="max-to" id="max-to" />
+								</span>
+							</label>
+						</>
 					)
 				})
 			)}
