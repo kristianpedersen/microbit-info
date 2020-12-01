@@ -2,8 +2,8 @@ import { useEffect, useRef, useState } from "react"
 import { v4 as uuidv4 } from 'uuid'
 
 export default function Options({ keys }) {
-	const [clicked, setClicked] = useState(true)
 	const formRef = useRef()
+	const [clicked, setClicked] = useState(true)
 
 	function handleChange(event) {
 		const tagName = event.target.tagName
@@ -41,8 +41,6 @@ export default function Options({ keys }) {
 								<span>
 									<input type="number" name="min-from" id="min-from" />
 									<input type="number" name="max-from" id="max-from" />
-									<input type="number" name="min-to" id="min-to" />
-									<input type="number" name="max-to" id="max-to" />
 								</span>
 							</label>
 						</>

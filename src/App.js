@@ -10,9 +10,13 @@ export default function App() {
 
   return (
     <>
-      <MessageHandler {...{ keys, setKeys, numberOfReceivedMessages }} />
-      <Options {...{ keys }} />
-      <Canvas />
+      <div>
+        <MessageHandler {...{ keys, setKeys, numberOfReceivedMessages }} />
+      </div>
+      <div>
+        <Options {...{ keys }} />
+        {/* <Canvas /> */}
+      </div>
     </>
   )
 }

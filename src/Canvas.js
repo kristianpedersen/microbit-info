@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react"
 import styled from "styled-components"
 
-export default function Canvas(props) {
+export default function Canvas({ messages }) {
 	const canvasRef = useRef(null)
 
 	useEffect(() => {
@@ -14,8 +14,7 @@ export default function Canvas(props) {
 		const rnd255 = () => Math.floor(Math.random() * 255)
 
 		function loop() {
-			c.fillStyle = `rgb(${rnd255()}, ${rnd255()}, ${rnd255()})`
-			c.fillRect(0, 0, width, height)
+
 			t++
 			if (t % 60 === 0) {
 				requestAnimationFrame(loop)
