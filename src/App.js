@@ -8,7 +8,7 @@ export default function App() {
   const logWindow = useRef()
   const [microbit, setMicrobit] = useState()
   const [messages, setMessages] = useState([])
-  const [keys, setKeys] = useState([])
+  const [keys, setKeys] = useState(new Set())
 
   const allProps = {
     logWindow,

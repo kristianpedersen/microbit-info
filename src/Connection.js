@@ -1,10 +1,9 @@
-import { useEffect } from "react"
 let device
-let latestMsg = ""
+let msg = ""
 
 export default function Connection(props) {
 	const {
-		setKeys,
+		keys, setKeys,
 		setMessages,
 		setMicrobit
 	} = props
@@ -17,62 +16,87 @@ export default function Connection(props) {
 		await device.selectConfiguration(1)
 		await device.claimInterface(2)
 		setMicrobit(device)
-		listen()
+		handleReceivedMessage()
 	}
 
 	async function disconnect() {
 		await device.close()
 	}
 
-	async function listen() {
-		const results = await device.transferIn(4, 1024)
+	function getKeysAndValuesFromString(msgString) {
+		const chars = msgString.split("")
+		return chars.reduce((total, current, index, array) => {
+			if (current === ":") {
+				let key = []
+				for (let i = index; i >= 0; i--) {
+					const thisChar = array[i]
+					if ("0123456789".split("").includes(thisChar) && i < index - 1) {
+						break
+					}
+					key.unshift(thisChar)
+				}
+
+				let value = ""
+				for (let i = index + 1; i < array.length; i++) {
+					const thisChar = array[i]
+					if (!"0123456789-".split("").includes(thisChar)) {
+						break
+					}
+					value += thisChar
+				}
+				key = key.join("").slice(0, -1)
+				total.push(`${key}: ${value}`)
+			}
+			return total
+		}, [])
+	}
+
+	async function handleReceivedMessage() {
+		const results = await device.transferIn(4, 2048)
 		const decoder = new TextDecoder()
 		const receivedData = decoder.decode(results.data).trim()
 
-		if (receivedData.length > 0) {
-			// Many messages arrive in irregularly sized chunks, 
-			// so we concatenate them until an empty message is received.
-			latestMsg += receivedData
+		if (receivedData.trim().length > 0) {
+			msg += receivedData
 		} else {
-			if (latestMsg.length > 0) {
-				const d = new Date()
-				const h = d.getHours()
-				const mm = String(d.getMinutes()).padStart(2, "0")
-				const ss = String(d.getSeconds()).padStart(2, "0")
-				const key = latestMsg.split(":").join(" ").split(" ")[0]
+			msg = getKeysAndValuesFromString(msg)
+			if (msg.length > 0) {
+				for (const m of msg) {
+					const key = m.split(":")[0].trim().replaceAll("\n", "")
 
-				setMessages(function showMaximum20Messages(prev) {
-					return [
-						...prev.slice(-20),
-						{
-							time: `${h}:${mm}:${ss}`,
-							msg: latestMsg
+					setMessages(prev => {
+						const d = new Date()
+						const hour = d.getHours()
+						const minutes = String(d.getMinutes()).padStart(2, "0")
+						const seconds = String(d.getSeconds()).padStart(2, "0")
+						const time = `${hour}:${minutes}:${seconds}`
+
+						if (prev === undefined) {
+							return [{ time, msg: m }]
+						} else if (m !== "") {
+							return [...prev.slice(-10), { time, msg: m }]
 						}
-					]
-				})
+						return prev
+					})
 
-				setKeys(function checkMsgForNewKeys(prev) {
-					if (prev !== undefined) {
-						if (!prev.includes(key)) {
-							return [...prev, key]
-						} else {
-							return prev
-						}
-					} else {
-						return [key]
-					}
-				})
-
+					keys.add(key)
+				}
 			}
-			latestMsg = ""
+			msg = ""
 		}
-		listen()
+		handleReceivedMessage()
+	}
+
+	function clear() {
+		setMessages([])
+		setKeys([])
 	}
 
 	return (
 		<div>
 			<button onClick={connect}>Connect</button>
 			<button onClick={disconnect}>Disconnect</button>
+			<button onClick={clear}>Clear</button>
 		</div>
 	)
 }
