@@ -3,6 +3,7 @@ let msg = ""
 
 export default function Connection(props) {
 	const {
+		formRef,
 		numberOfReceivedMessages,
 		setKeys,
 		setMessages,
@@ -94,6 +95,7 @@ export default function Connection(props) {
 	function clear() {
 		setMessages(prev => [])
 		setKeys(prev => [])
+		numberOfReceivedMessages.current = 0
 	}
 
 	return (

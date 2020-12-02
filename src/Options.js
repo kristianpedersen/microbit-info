@@ -1,8 +1,7 @@
 import { useEffect, useRef, useState } from "react"
 import { v4 as uuidv4 } from 'uuid'
 
-export default function Options({ keys }) {
-	const formRef = useRef()
+export default function Options({ formRef, keys }) {
 	const [clicked, setClicked] = useState(true)
 
 	function handleChange(event) {

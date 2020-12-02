@@ -3,18 +3,21 @@ import Connection from "./Connection"
 import SimpleLogWindow from "./SimpleLogWindow"
 
 export default function MessageHandler({
+	formRef,
 	keys, setKeys,
 	numberOfReceivedMessages
 }) {
 	const logWindow = useRef()
 	const [microbit, setMicrobit] = useState()
 	const [messages, setMessages] = useState([])
+
 	const allProps = {
-		keys, setKeys,
+		formRef,
 		logWindow,
+		numberOfReceivedMessages,
+		keys, setKeys,
 		messages, setMessages,
 		microbit, setMicrobit,
-		numberOfReceivedMessages
 	}
 
 	return (
