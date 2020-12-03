@@ -17,17 +17,7 @@ export default function SimpleLogWindow({
 			}
 			{messages.map(m => {
 				if (numberOfReceivedMessages.current > 100) {
-					const labels = [...formRef.current.querySelectorAll("label")]
-					const key = m.msg.split(":")[0]
-					const label = labels.filter(l => l.innerText === key)[0]
-					if (label !== undefined) {
-						const input = label.querySelector("input")
-						if (input.checked) {
-							return <p key={uuidv4()}>{`${m.time} / ${m.msg}`}</p>
-						}
-					} else {
-						// console.log("nei")
-					}
+					return <p key={uuidv4()}>{`${m.time} / ${m.msg}`}</p>
 				} else {
 					return <p>loading ...</p>
 				}

@@ -1,4 +1,9 @@
-* {
-	background-color: #333;
-	color: beige;
+body {
+	background: linear-gradient(beige, pink);
+	font-family: sans-serif;
+	height: 100vh;
+}
+
+h1 {
+	font-family: 'Lato', sans-serif;
 }

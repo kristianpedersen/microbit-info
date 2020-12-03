@@ -6,18 +6,20 @@ import Options from "./Options"
 
 export default function App() {
   const formRef = useRef(null)
+  const [ranges, setRanges] = useState({})
   const [keys, setKeys] = useState([])
   const numberOfReceivedMessages = useRef(0)
 
   return (
     <>
-      <div>
-        <MessageHandler {...{ formRef, keys, setKeys, numberOfReceivedMessages }} />
-      </div>
-      <div>
-        <Options {...{ formRef, keys }} />
-        {/* <Canvas /> */}
-      </div>
+      <Options {...{ formRef, keys, ranges, setRanges }} />
+      {/* <Canvas /> */}
+      <MessageHandler {...{
+        formRef,
+        numberOfReceivedMessages,
+        keys, setKeys,
+        ranges, setRanges,
+      }} />
     </>
   )
 }

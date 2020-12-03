@@ -1,11 +1,12 @@
 import { useRef, useState } from "react"
 import Connection from "./Connection"
+import SendMidi from "./SendMidi"
 import SimpleLogWindow from "./SimpleLogWindow"
 
 export default function MessageHandler({
 	formRef,
+	numberOfReceivedMessages,
 	keys, setKeys,
-	numberOfReceivedMessages
 }) {
 	const logWindow = useRef()
 	const [microbit, setMicrobit] = useState()
@@ -23,6 +24,7 @@ export default function MessageHandler({
 	return (
 		<>
 			<Connection {...allProps} />
+			<SendMidi {...{ messages }} />
 			<SimpleLogWindow {...allProps} />
 		</>
 	)
