@@ -1,6 +1,6 @@
 // Converts a number from one range to another
 export function map(value, srcMin, srcMax, destMin, destMax, clamp = false) {
-	const mappedValue = (value - srcMin) * (destMax - destMin) / (srcMax - srcMin) + destMin
+	let mappedValue = (value - srcMin) * (destMax - destMin) / (srcMax - srcMin) + destMin
 
 	if (clamp) {
 		if (mappedValue < destMin) {

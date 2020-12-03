@@ -3,7 +3,7 @@ import styled from "styled-components"
 import WebMidi from "webmidi"
 import { clamp, map } from "./Utils"
 
-export default function ListMidiDevices({ messages }) {
+export default function ListMidiDevices({ messages, ranges }) {
 	const h1 = useRef(null)
 	const errorMessage = useRef(null)
 	const [midiDevices, setMidiDevices] = useState([])
@@ -30,7 +30,7 @@ export default function ListMidiDevices({ messages }) {
 		}
 
 		const lastMessage = messages[0].msg.split(":")[1]
-		const normalizedValue = map(lastMessage, -1000, 4000, -1, 1, true)
+		const normalizedValue = map(lastMessage, ranges["min-from"] || 0, ranges["max-from"] || 0, -1, 1, true) // last parameter is for clamping values
 
 		if (!isNaN(lastMessage)) {
 			selectedDevice.sendPitchBend(normalizedValue)
@@ -54,7 +54,7 @@ export default function ListMidiDevices({ messages }) {
 
 	return (
 		<>
-			<h1 ref={h1}>MIDI Port</h1>
+			<h1 ref={h1}>MIDI Output</h1>
 			<form>
 				{midiDevices.length > 0 && midiDevices.map(device => {
 					const deviceName = device.name.replaceAll(" ", "-")

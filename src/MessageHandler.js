@@ -7,6 +7,7 @@ export default function MessageHandler({
 	formRef,
 	numberOfReceivedMessages,
 	keys, setKeys,
+	ranges, setRanges
 }) {
 	const logWindow = useRef()
 	const [microbit, setMicrobit] = useState()
@@ -24,7 +25,7 @@ export default function MessageHandler({
 	return (
 		<>
 			<Connection {...allProps} />
-			<SendMidi {...{ messages }} />
+			<SendMidi {...{ messages, ranges }} />
 			<SimpleLogWindow {...allProps} />
 		</>
 	)
