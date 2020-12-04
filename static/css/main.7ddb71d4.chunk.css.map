@@ -1,0 +1,1 @@
+{"version":3,"sources":["webpack://src/App.css"],"names":[],"mappings":"AAAA,KACC,sCAAwC,CACxC,sBAAuB,CACvB,YACD,CAEA,GACC,6BACD","file":"main.7ddb71d4.chunk.css","sourcesContent":["body {\n\tbackground: linear-gradient(beige, pink);\n\tfont-family: sans-serif;\n\theight: 100vh;\n}\n\nh1 {\n\tfont-family: 'Lato', sans-serif;\n}"]}
