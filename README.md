@@ -1,7 +1,17 @@
-# micro:bit serial visualizer
+# micro:bit serial data to WebMIDI
 
-Using the micro:bit, I got tired of switching between MakeCode's code view and console view all the time.
+Accepts key:value messages from a micro:bit, and uses them to send MIDI messages.
 
-This web page lets you see a simple log, a graph of all values, and lets you toggle the visibility of values based on their key or data type.
+Here's an example where the micro:bit's magnetometer is transformed to MIDI data:
 
-If you wish to help, please submit an issue or pull request here on GitHub.
+Todos / ideas (december 4th 2020):
+* Prevent bug that causes incomplete messages under high CPU loads or onfocused window. This causes multiple keys to be added, such as "ke" or "keykey".
+* Support for multiple keys and multiple control change messages - only one key:value message supported now.
+* Maybe expose more of the WebMIDI API, allowing users to create their own setups.
+* Arduino support
+* Nicer looks
+* localStorage to persist settings between sessions
+* Visualize incoming values on Canvas element.
+* There is a small amount of smoothing applied to the output signal. This should have an input slider
+* Testing on Windows and Linux, and with other MIDI interfaces.
+* Clean up messy file structure and code.
