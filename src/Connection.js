@@ -113,7 +113,7 @@ export default function Connection({
 		<div>
 			<button onClick={connect}>Connect micro:bit</button>
 			<button onClick={disconnect}>Disconnect</button>
-			<button onClick={clear}>Clear keys</button>
+			<button onClick={clear}>Clear keys</button> {/*Messages arrive incomplete under rare circumstances*/}
 		</div>
 	)
 }

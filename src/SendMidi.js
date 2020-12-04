@@ -6,6 +6,7 @@ import { clamp, map } from "./Utils"
 export default function ListMidiDevices({ messages, ranges }) {
 	const h1 = useRef(null)
 	const errorMessage = useRef(null)
+	let smoothValue = useRef(0)
 	const [midiDevices, setMidiDevices] = useState([])
 	const [selectedDevice, setSelectedDevice] = useState()
 
@@ -24,18 +25,22 @@ export default function ListMidiDevices({ messages, ranges }) {
 		})
 	}, [])
 
-	useEffect(function sendPitchBendOnMessageChange() {
+	useEffect(function sendMidi() {
 		if (selectedDevice === undefined || messages.length === 0) {
 			return
 		}
 
 		const lastMessage = messages[0].msg.split(":")[1]
-		const normalizedValue = map(lastMessage, ranges["min-from"] || 0, ranges["max-from"] || 0, -1, 1, true) // last parameter is for clamping values
+		const normalizedValue = map(lastMessage,
+			(ranges["min-from"] || 0),
+			(ranges["max-from"] || 0),
+			0, 127, true) // "true" = prevent output value from going out of bounds
 
-		if (!isNaN(lastMessage)) {
-			selectedDevice.sendPitchBend(normalizedValue)
+		if (!isNaN(lastMessage) && !isNaN(normalizedValue)) {
+			smoothValue.current += (normalizedValue - smoothValue.current) * 0.25
+			selectedDevice.sendControlChange(0, clamp(smoothValue.current, 0, 127))
 		}
-	}, [messages])
+	}, [messages, ranges, selectedDevice])
 
 	useEffect(function playNoteWhenDeviceChanges() {
 		if (selectedDevice === undefined) {
@@ -54,7 +59,7 @@ export default function ListMidiDevices({ messages, ranges }) {
 
 	return (
 		<>
-			<h1 ref={h1}>MIDI Output</h1>
+			<h1 ref={h1}>MIDI device</h1>
 			<form>
 				{midiDevices.length > 0 && midiDevices.map(device => {
 					const deviceName = device.name.replaceAll(" ", "-")
@@ -78,12 +83,6 @@ export default function ListMidiDevices({ messages, ranges }) {
 
 const Label = styled.label`
 	background-color: white;
-	/* https://tobiasahlin.com/blog/layered-smooth-box-shadows/ */
-	box-shadow: 0 1px 2px rgba(0,0,0,0.07), 
-                0 2px 4px rgba(0,0,0,0.07), 
-                0 4px 8px rgba(0,0,0,0.07), 
-                0 8px 16px rgba(0,0,0,0.07),
-                0 16px 32px rgba(0,0,0,0.07), 
-                0 32px 64px rgba(0,0,0,0.07);
+	border: 1px solid #333;
 	padding: 1rem;
 `

@@ -12,8 +12,8 @@ export default function SimpleLogWindow({
 	return (
 		<div>
 			{microbit === undefined
-				? <h1>Trykk connect</h1>
-				: <h1>{microbit.productName}: {[...keys].join(", ")} ({numberOfReceivedMessages.current.toLocaleString("NO")})</h1>
+				? <h1>Click connect button</h1>
+				: <h1>{microbit.productName}</h1>
 			}
 			{messages.map(m => {
 				if (numberOfReceivedMessages.current > 100) {
