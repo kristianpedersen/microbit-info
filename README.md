@@ -1,5 +1,7 @@
 # micro:bit serial data to WebMIDI
 
+[https://kristianpedersen.github.io/microbit-info/](https://kristianpedersen.github.io/microbit-info/)
+
 Accepts key:value messages from a micro:bit, and uses them to send MIDI messages.
 
 Here's an example where the micro:bit's magnetometer is transformed to MIDI data:
